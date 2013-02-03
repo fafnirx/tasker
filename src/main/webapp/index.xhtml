@@ -6,20 +6,34 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui" >
     <h:head>
-        <title>Facelet Title</title>
+        <title>Task Manager</title>
     </h:head>
+    
     <h:body>
-        Hello from Facelets : Hello #{tasksBean.greeting}
+        <h:form id="form">        
 
-        <p:dataTable value="#{tasksBean.allTasks}" var="task">
-            <p:column headerText="Name">
-                #{task.name}
-            </p:column>
-            <p:column headerText="Description">
-                #{task.description}
-            </p:column>
-            
-        </p:dataTable>        
+            <p:layout style="min-width:400px;min-height:200px;" id="layout">
+                <p:layoutUnit position="west" resizable="true" size="200" minSize="40" maxSize="400">
+                    <p:dataTable value="#{tasksBean.allTasks}" var="task" selectionMode="single" selection="#{tasksBean.selectedTask}">
+                        <p:ajax event="rowSelect" update=":form:display" />
+                        <p:column headerText="Name">
+                            #{task.name}
+                        </p:column>
+                        <p:column headerText="Description">
+                            #{task.description}
+                        </p:column>
+
+                    </p:dataTable>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    
+                    <h:panelGrid id="display" columns="2" cellpadding="4">
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{tasksBean.selectedTask.name}" />
+                    </h:panelGrid>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
     </h:body>
 </html>
 

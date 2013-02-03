@@ -4,16 +4,22 @@
  */
 package de.fafnirx.tasktracker.entity;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Mirko Leschikar <fafnirx@gmail.com>
  */
 @Entity
-public class Task {
+@NamedQueries({
+    @NamedQuery(name="findalltask", query="SELECT t FROM Task t")
+})
+public class Task implements Serializable {
     @Id @GeneratedValue
     private Long id;
     

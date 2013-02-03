@@ -4,10 +4,12 @@
  */
 package de.fafnirx.tasktracker.bean;
 
+import de.fafnirx.tasktracker.ejb.TasksDao;
 import de.fafnirx.tasktracker.entity.Task;
-import java.util.ArrayList;
+import de.fafnirx.tasktracker.model.TaskModel;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -18,22 +20,28 @@ import javax.inject.Named;
 @RequestScoped
 public class TasksBean {
     private List<Task> allTasks;
+    private Task currentTask;
+    
+    @Inject
+    TasksDao taskDao;
+    
     
     public String getGreeting() {
         return "World";
     }
     
-    public List<Task> getAllTasks() {
+    
+    public TaskModel getAllTasks() {
         if (allTasks == null) {
-            allTasks = new ArrayList<Task>();
-            
-            allTasks.add(new Task("Task1", "Description Task 1"));
-            allTasks.add(new Task("Task2", "Description Task 2"));
-            allTasks.add(new Task("Task3", "Description Task 3"));
-            allTasks.add(new Task("Task4", "Description Task 4"));
-            allTasks.add(new Task("Task5", "Description Task 5"));
+            allTasks = taskDao.findAllTasks();
         }
         
-        return allTasks;
+        return new TaskModel( allTasks, taskDao);
+    }
+    public Task getSelectedTask() {
+        return currentTask;
+    }
+    public void setSelectedTask( Task task) {
+        currentTask = task;
     }
 }
