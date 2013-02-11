@@ -10,11 +10,13 @@
     </h:head>
     
     <h:body>
+        <f:view id="view1">
         <h:form id="form">        
 
             <p:layout style="min-width:400px;min-height:200px;" id="layout">
                 <p:layoutUnit position="west" resizable="true" size="200" minSize="40" maxSize="400">
-                    <p:dataTable value="#{tasksBean.allTasks}" var="task" selectionMode="single" selection="#{tasksBean.selectedTask}">
+                    <p:dataTable value="#{tasksBean.allTasks}" var="task" 
+                                 selectionMode="single" selection="#{tasksBean.selectedTask}">
                         <p:ajax event="rowSelect" update=":form:display" />
                         <p:column headerText="Name">
                             #{task.name}
@@ -27,13 +29,24 @@
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
                     
-                    <h:panelGrid id="display" columns="2" cellpadding="4">
+                    <p:panelGrid id="display" columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Details" />
+                        </f:facet>
                         <h:outputText value="Name:" />
-                        <h:outputText value="#{tasksBean.selectedTask.name}" />
-                    </h:panelGrid>
+                        <p:inputText value="#{tasksBean.selectedTask.name}" />
+                        <h:outputText value="Description" />
+                        <p:inputText value="#{tasksBean.selectedTask.description}" />
+                        <f:facet name="footer" >
+                        </f:facet>
+                            
+                    </p:panelGrid>
+                    <p:commandButton value="Save" actionListener="#{tasksBean.updateTask}" process="@this"/> 
+
                 </p:layoutUnit>
             </p:layout>
         </h:form>
+        </f:view>
     </h:body>
 </html>
 
